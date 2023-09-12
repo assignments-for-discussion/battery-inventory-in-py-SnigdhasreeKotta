@@ -1,21 +1,35 @@
+def classify_battery_health(soh):
+    if soh > 80:
+        return "healthy"
+    elif 63 <= soh <= 80:
+        return "exchange"
+    else:
+        return "failed"
 
 def count_batteries_by_health(present_capacities):
-  return {
-    "healthy": 0,
-    "exchange": 0,
-    "failed": 0
-  }
+    rated_capacity = 120  # Rated capacity of a new battery
+    counts = {
+        "healthy": 0,
+        "exchange": 0,
+        "failed": 0
+    }
 
+    for capacity in present_capacities:
+        soh = (capacity / rated_capacity) * 100
+        classification = classify_battery_health(soh)
+        counts[classification] += 1
+
+    return counts
 
 def test_bucketing_by_health():
-  print("Counting batteries by SoH...\n")
-  present_capacities = [115, 118, 80, 95, 91, 72]
-  counts = count_batteries_by_health(present_capacities)
-  assert(counts["healthy"] == 2)
-  assert(counts["exchange"] == 3)
-  assert(counts["failed"] == 1)
-  print("Done counting :)")
-
+    print("Counting batteries by SoH...\n")
+    present_capacities = [115, 118, 80, 95, 91, 72]
+    counts = count_batteries_by_health(present_capacities)
+    assert(counts["healthy"] == 2)
+    assert(counts["exchange"] == 3)
+    assert(counts["failed"] == 1)
+    print("Done counting, here is the counts of classified")
+    print(counts)
 
 if __name__ == '__main__':
-  test_bucketing_by_health()
+    test_bucketing_by_health()
