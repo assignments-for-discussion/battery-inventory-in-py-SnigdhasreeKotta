@@ -1,5 +1,5 @@
 def count_batteries_by_health(present_capacities):
-    rated_capacity = 120  # Rated capacity of a new battery
+    rated_capacity = 120
     counts = {
         "healthy": 0,
         "exchange": 0,
